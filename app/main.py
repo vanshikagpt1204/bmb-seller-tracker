@@ -414,14 +414,10 @@ def main() -> None:
             run_now = False
 
             try:
-                try:
-                    collect_ebay_books(db)
-                except Exception:
-                    log.exception(
-                        "eBay collection failed; continuing with other imports"
-                    )
-
                 collect_imports(db)
+
+                from app.isbn_import import collect_isbn_exports
+                collect_isbn_exports(db)
 
                 path, rows = export_pending_csv(db, now)
 
